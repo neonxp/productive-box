@@ -15,7 +15,7 @@ interface IRepo {
   owner: string;
 }
 
-(async() => {
+(async () => {
   /**
    * First, get user id
    */
@@ -40,7 +40,7 @@ interface IRepo {
    * Third, get commit time and parse into commit-time/hour diagram
    */
   const committedTimeResponseMap = await Promise.all(
-    repos.map(({name, owner}) => githubQuery(createCommittedDateQuery(id, name, owner)))
+    repos.map(({ name, owner }) => githubQuery(createCommittedDateQuery(id, name, owner)))
   ).catch(error => console.error(`Unable to get the commit info\n${error}`));
 
   if (!committedTimeResponseMap) return;
@@ -73,17 +73,17 @@ interface IRepo {
   if (!sum) return;
 
   const oneDay = [
-    { label: '🌞 Morning', commits: morning },
-    { label: '🌆 Daytime', commits: daytime },
-    { label: '🌃 Evening', commits: evening },
-    { label: '🌙 Night', commits: night },
+    { label: '🌞 Утро', commits: morning },
+    { label: '🌆 День', commits: daytime },
+    { label: '🌃 Вечер', commits: evening },
+    { label: '🌙 Ночь', commits: night },
   ];
 
   const lines = oneDay.reduce((prev, cur) => {
     const percent = cur.commits / sum * 100;
     const line = [
       `${cur.label}`.padEnd(10),
-      `${cur.commits.toString().padStart(5)} commits`.padEnd(14),
+      `${cur.commits.toString().padStart(5)} коммитов`.padEnd(14),
       generateBarChart(percent, 21),
       String(percent.toFixed(1)).padStart(5) + '%',
     ];
@@ -106,7 +106,7 @@ interface IRepo {
     files: {
       [filename]: {
         // eslint-disable-next-line quotes
-        filename: (morning + daytime) > (evening + night) ? "I'm an early 🐤" : "I'm a night 🦉",
+        filename: (morning + daytime) > (evening + night) ? "Я - жаворонок 🐤" : "Я - сова 🦉",
         content: lines.join('\n'),
       },
     },
